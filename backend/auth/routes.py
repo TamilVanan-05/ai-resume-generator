@@ -5,9 +5,6 @@ from models import User
 from . import auth_bp
 from .utils import generate_verification_code, send_verification_email, send_password_reset_email
 
-# Dictionary to temporarily store verification codes in-memory
-# format: { email: { 'code': code, 'temp_user_data': {...} } }
-pending_verifications = {}
 reset_tokens = {}
 
 @auth_bp.route('/signup', methods=['POST'])
@@ -22,17 +19,36 @@ def signup():
         
     existing_user = User.query.filter_by(email=email).first()
     if existing_user:
-        return jsonify({'message': 'Email already registered'}), 409
+        if existing_user.is_verified:
+            return jsonify({'message': 'Email already registered'}), 409
+        else:
+            # Update password and name for unverified user registration re-attempt
+            existing_user.name = name
+            existing_user.set_password(password)
+            code = generate_verification_code()
+            existing_user.verification_code = code
+            db.session.commit()
+            send_verification_email(email, code)
+            return jsonify({
+                'message': 'Signup updated. A new verification code has been sent to your email.',
+                'email': email,
+                'dev_bypass_code': code
+            }), 200
         
     # Generate verification code
     code = generate_verification_code()
     
-    # Store temporary signup data in memory
-    pending_verifications[email] = {
-        'code': code,
-        'name': name,
-        'password': password
-    }
+    # Store unverified user directly in the database
+    user = User(
+        name=name,
+        email=email,
+        is_verified=False,
+        verification_code=code
+    )
+    user.set_password(password)
+    
+    db.session.add(user)
+    db.session.commit()
     
     # Send simulated verification email
     send_verification_email(email, code)
@@ -52,28 +68,20 @@ def verify_email():
     if not email or not code:
         return jsonify({'message': 'Missing email or verification code'}), 400
         
-    pending = pending_verifications.get(email)
-    if not pending or pending['code'] != code:
+    user = User.query.filter_by(email=email).first()
+    if not user or user.verification_code != code:
         return jsonify({'message': 'Invalid verification code or email'}), 400
         
-    # Create the user in the database
-    user = User(
-        name=pending['name'],
-        email=email,
-        is_verified=True
-    )
-    user.set_password(pending['password'])
+    # Set user status verified
+    user.is_verified = True
+    user.verification_code = None
     
-    # Set first user as admin automatically
-    first_user = User.query.first()
-    if not first_user:
+    # Set first verified user as admin automatically
+    admin_count = User.query.filter_by(is_admin=True, is_verified=True).count()
+    if admin_count == 0:
         user.is_admin = True
         
-    db.session.add(user)
     db.session.commit()
-    
-    # Clean up pending
-    pending_verifications.pop(email, None)
     
     # Generate login token
     access_token = create_access_token(identity=str(user.id))
@@ -100,11 +108,8 @@ def login():
     if not user.is_verified:
         # Re-send verification code if user registered but is not verified
         code = generate_verification_code()
-        pending_verifications[email] = {
-            'code': code,
-            'name': user.name,
-            'password': password  # Simple re-sync
-        }
+        user.verification_code = code
+        db.session.commit()
         send_verification_email(email, code)
         return jsonify({
             'message': 'Account not verified. Verification email resent.',
@@ -119,6 +124,7 @@ def login():
         'access_token': access_token,
         'user': user.to_dict()
     }), 200
+
 
 @auth_bp.route('/forgot-password', methods=['POST'])
 def forgot_password():

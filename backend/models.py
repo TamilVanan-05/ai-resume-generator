@@ -11,6 +11,7 @@ class User(db.Model):
     password_hash = db.Column(db.String(255), nullable=False)
     is_admin = db.Column(db.Boolean, default=False)
     is_verified = db.Column(db.Boolean, default=False)
+    verification_code = db.Column(db.String(10), nullable=True)
     created_at = db.Column(db.DateTime, default=datetime.datetime.utcnow)
     
     # Relationships
