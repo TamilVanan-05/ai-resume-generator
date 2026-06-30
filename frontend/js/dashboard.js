@@ -15,6 +15,16 @@ document.addEventListener("DOMContentLoaded", () => {
     }
     
     const user = JSON.parse(userJson);
+    
+    // Check if redirecting from Canva-style landing page template selection
+    const urlParams = new URLSearchParams(window.location.search);
+    const createTemplate = urlParams.get("create_template");
+    if (createTemplate) {
+        sessionStorage.removeItem("pending_template_selection");
+        autoCreateLandingResume(createTemplate);
+        return;
+    }
+    
     document.getElementById("user-display-name").textContent = user.name;
     document.getElementById("profile-name").value = user.name;
     document.getElementById("profile-email").value = user.email;
@@ -28,6 +38,46 @@ document.addEventListener("DOMContentLoaded", () => {
     document.getElementById("profile-details-form").addEventListener("submit", handleUpdateProfile);
     document.getElementById("profile-password-form").addEventListener("submit", handleUpdatePassword);
 });
+
+async function autoCreateLandingResume(templateId) {
+    try {
+        const title = `My ${templateId.charAt(0).toUpperCase() + templateId.slice(1)} Resume`;
+        const res = await fetchAPI("/api/resumes", {
+            method: "POST",
+            body: JSON.stringify({
+                title: title,
+                template_name: templateId,
+                content: {
+                    personal: { name: "", email: "", phone: "", website: "", location: "", title: "", summary: "" },
+                    education: [],
+                    experience: [],
+                    skills: [],
+                    projects: [],
+                    certificates: [],
+                    languages: [],
+                    achievements: []
+                },
+                custom_styling: {
+                    font_family: "Inter",
+                    font_size: "font-md",
+                    spacing: "spacing-normal",
+                    theme_color: "#1e3a8a"
+                }
+            })
+        });
+        
+        if (res.ok) {
+            const data = await res.json();
+            window.location.href = `/editor?id=${data.id}`;
+        } else {
+            window.location.href = "/dashboard";
+        }
+    } catch (err) {
+        console.error(err);
+        window.location.href = "/dashboard";
+    }
+}
+
 
 // Switch Tab Panes
 function switchTab(tabName) {

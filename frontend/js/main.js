@@ -111,3 +111,52 @@ async function fetchAPI(endpoint, options = {}) {
     
     return response;
 }
+
+// --- Canva-style Landing Template Access Helper ---
+async function useTemplateOnLanding(templateId) {
+    const token = localStorage.getItem("access_token");
+    if (!token) {
+        // Save pending template selection in session storage
+        sessionStorage.setItem("pending_template_selection", templateId);
+        // Redirect to auth (signup/login page)
+        window.location.href = "/auth";
+        return;
+    }
+    
+    // User is logged in, create a new resume directly
+    try {
+        const response = await fetchAPI("/api/resumes", {
+            method: "POST",
+            body: JSON.stringify({
+                title: `My ${templateId.charAt(0).toUpperCase() + templateId.slice(1)} Resume`,
+                template_name: templateId,
+                content: {
+                    personal: { name: "", email: "", phone: "", website: "", location: "", title: "", summary: "" },
+                    education: [],
+                    experience: [],
+                    skills: [],
+                    projects: [],
+                    certificates: [],
+                    languages: [],
+                    achievements: []
+                },
+                custom_styling: {
+                    font_family: "Inter",
+                    font_size: "font-md",
+                    spacing: "spacing-normal",
+                    theme_color: "#1e3a8a"
+                }
+            })
+        });
+        
+        if (response.ok) {
+            const data = await response.json();
+            window.location.href = `/editor?id=${data.id}`;
+        } else {
+            window.location.href = "/dashboard";
+        }
+    } catch (err) {
+        console.error(err);
+        window.location.href = "/dashboard";
+    }
+}

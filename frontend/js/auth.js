@@ -87,7 +87,13 @@ async function handleLogin(e) {
                 // Save access credentials
                 localStorage.setItem("access_token", data.access_token);
                 localStorage.setItem("user", JSON.stringify(data.user));
-                window.location.href = "/dashboard";
+                
+                const pendingTemplate = sessionStorage.getItem("pending_template_selection");
+                if (pendingTemplate) {
+                    window.location.href = `/dashboard?create_template=${pendingTemplate}`;
+                } else {
+                    window.location.href = "/dashboard";
+                }
             }
         } else {
             showAlert(data.message || "Login failed. Check details.");
@@ -150,7 +156,13 @@ async function handleVerification(e) {
         if (response.ok) {
             localStorage.setItem("access_token", data.access_token);
             localStorage.setItem("user", JSON.stringify(data.user));
-            window.location.href = "/dashboard";
+            
+            const pendingTemplate = sessionStorage.getItem("pending_template_selection");
+            if (pendingTemplate) {
+                window.location.href = `/dashboard?create_template=${pendingTemplate}`;
+            } else {
+                window.location.href = "/dashboard";
+            }
         } else {
             showAlert(data.message || "Verification code is incorrect.");
         }
