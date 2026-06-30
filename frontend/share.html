@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resum.AI - Shared Resume</title>
+    <!-- Bootstrap 5 -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <!-- html2pdf.js and jsPDF -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    <!-- Main styles -->
+    <link href="/css/main.css" rel="stylesheet">
+    <link href="/css/templates.css" rel="stylesheet">
+    <style>
+        body {
+            padding-top: 100px;
+            padding-bottom: 50px;
+        }
+        .share-header {
+            max-width: 840px;
+            margin: 0 auto 20px auto;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Glassmorphic Navbar -->
+    <nav class="glass-nav navbar navbar-expand-lg navbar-dark py-3">
+        <div class="container">
+            <a class="navbar-brand d-flex align-items-center fw-bold fs-3 text-primary" href="/">
+                <i class="fa-solid fa-wand-magic-sparkles me-2"></i>
+                <span class="text-white-50">Resum</span><span class="text-primary">.AI</span>
+            </a>
+            <div class="ms-auto">
+                <button class="btn btn-link theme-toggle-btn p-2" aria-label="Toggle Theme">
+                    <i class="fa-solid fa-moon"></i>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Share Page Header Actions -->
+    <div class="share-header animate-fade-in">
+        <div class="glass-card p-3 d-flex justify-content-between align-items-center flex-wrap gap-3">
+            <div>
+                <h4 class="fw-bold mb-1 text-white" id="public-title">Shared Resume</h4>
+                <p class="small text-secondary mb-0">Published via Antigravity AI Resume Generator</p>
+            </div>
+            <button onclick="exportPDF()" class="btn btn-glass-primary btn-sm px-4">
+                <i class="fa-solid fa-file-pdf me-2"></i>Download PDF
+            </button>
+        </div>
+    </div>
+
+    <!-- Main Canvas View -->
+    <div class="container d-flex justify-content-center mt-3">
+        <div id="preview-canvas-holder" style="width: 100%; display: flex; justify-content: center; overflow: hidden; padding-bottom: 20px;">
+            <div id="resume-canvas" class="resume-canvas">
+                <div class="text-center py-5 text-secondary">
+                    <div class="spinner-border text-primary mb-3" role="status"></div>
+                    <p>Loading shared resume details...</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Script references -->
+    <script src="/js/config.js"></script>
+    <script src="/js/main.js"></script>
+    <script src="/js/templates.js"></script>
+    <script src="/js/share.js"></script>
+</body>
+</html>

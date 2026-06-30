@@ -1,0 +1,408 @@
+/* ==========================================================================
+   AI Resume Generator CSS Core Design System
+   Glassmorphism UI, Light/Dark Modes, Dynamic Transitions, Premium Fonts
+   ========================================================================== */
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800&display=swap');
+
+:root {
+    /* Color Palette */
+    --primary-color: #3b82f6;      /* Vibrant Blue */
+    --primary-dark: #1d4ed8;       /* Deep Blue */
+    --accent-color: #60a5fa;       /* Light Accent Blue */
+    
+    /* Light Mode Tokens */
+    --bg-gradient: linear-gradient(135deg, #f0f7ff 0%, #e0eefe 50%, #f3f4f6 100%);
+    --bg-solid: #f8fafc;
+    --text-primary: #0f172a;        /* Slate 900 */
+    --text-secondary: #475569;      /* Slate 600 */
+    --text-light: #94a3b8;          /* Slate 400 */
+    --glass-bg: rgba(255, 255, 255, 0.45);
+    --glass-border: rgba(255, 255, 255, 0.4);
+    --glass-shadow: 0 8px 32px 0 rgba(148, 163, 184, 0.15);
+    --card-bg: #ffffff;
+    --border-color: #e2e8f0;
+    
+    /* Shared settings */
+    --radius-sm: 8px;
+    --radius-md: 16px;
+    --radius-lg: 24px;
+    --transition-fast: 0.2s ease;
+    --transition-smooth: 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+body.dark-mode {
+    /* Dark Mode Tokens */
+    --bg-gradient: linear-gradient(135deg, #020617 0%, #070f2b 50%, #030712 100%);
+    --bg-solid: #090d1f;
+    --text-primary: #f8fafc;        /* Slate 50 */
+    --text-secondary: #cbd5e1;      /* Slate 300 */
+    --text-light: #64748b;          /* Slate 500 */
+    --glass-bg: rgba(15, 23, 42, 0.45);
+    --glass-border: rgba(255, 255, 255, 0.08);
+    --glass-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.5);
+    --card-bg: #0b1329;
+    --border-color: #1e293b;
+}
+
+/* Reset and Globals */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Inter', sans-serif;
+    background: var(--bg-gradient);
+    background-attachment: fixed;
+    color: var(--text-primary);
+    min-height: 100vh;
+    overflow-x: hidden;
+    transition: background var(--transition-smooth), color var(--transition-smooth);
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-family: 'Outfit', sans-serif;
+    font-weight: 600;
+}
+
+/* Glassmorphism Classes */
+.glass-card {
+    background: var(--glass-bg);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid var(--glass-border);
+    border-radius: var(--radius-md);
+    box-shadow: var(--glass-shadow);
+    transition: transform var(--transition-smooth), box-shadow var(--transition-smooth), background var(--transition-smooth);
+}
+
+.glass-card-hover:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 12px 40px 0 rgba(59, 130, 246, 0.2);
+    background: rgba(255, 255, 255, 0.55);
+}
+body.dark-mode .glass-card-hover:hover {
+    background: rgba(15, 23, 42, 0.55);
+    box-shadow: 0 12px 40px 0 rgba(0, 0, 0, 0.7);
+}
+
+/* Custom Scrollbars */
+::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+::-webkit-scrollbar-track {
+    background: transparent;
+}
+::-webkit-scrollbar-thumb {
+    background: var(--text-light);
+    border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+    background: var(--primary-color);
+}
+
+/* Animations */
+@keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(15px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.animate-float {
+    animation: float 4s ease-in-out infinite;
+}
+
+.animate-fade-in {
+    animation: fadeIn var(--transition-smooth) forwards;
+}
+
+/* Glassmorphic Navbar */
+.glass-nav {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 1000;
+    background: rgba(255, 255, 255, 0.3);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-bottom: 1px solid var(--glass-border);
+    transition: background var(--transition-fast);
+}
+body.dark-mode .glass-nav {
+    background: rgba(9, 13, 31, 0.4);
+}
+
+/* Interactive Elements styling */
+.btn-glass-primary {
+    background: var(--primary-color);
+    color: #fff;
+    border: none;
+    border-radius: var(--radius-sm);
+    padding: 10px 24px;
+    font-weight: 500;
+    transition: background var(--transition-fast), transform var(--transition-fast);
+}
+.btn-glass-primary:hover {
+    background: var(--primary-dark);
+    transform: scale(1.02);
+}
+
+.btn-glass-secondary {
+    background: transparent;
+    color: var(--text-primary);
+    border: 1px solid var(--text-secondary);
+    border-radius: var(--radius-sm);
+    padding: 10px 24px;
+    font-weight: 500;
+    transition: background var(--transition-fast), color var(--transition-fast);
+}
+.btn-glass-secondary:hover {
+    background: var(--text-primary);
+    color: var(--bg-solid);
+}
+
+.form-control-glass {
+    background: rgba(255, 255, 255, 0.15) !important;
+    border: 1px solid var(--glass-border) !important;
+    color: var(--text-primary) !important;
+    backdrop-filter: blur(5px);
+    transition: all var(--transition-fast);
+}
+body.dark-mode .form-control-glass {
+    background: rgba(0, 0, 0, 0.3) !important;
+}
+.form-control-glass:focus {
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.25) !important;
+    border-color: var(--primary-color) !important;
+}
+
+/* Dashboard & Sidebar Layout */
+.dashboard-grid {
+    display: grid;
+    grid-template-columns: 280px 1fr;
+    min-height: 100vh;
+    padding-top: 70px;
+}
+
+.dashboard-sidebar {
+    background: rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border-right: 1px solid var(--glass-border);
+    padding: 24px;
+    height: calc(100vh - 70px);
+    position: sticky;
+    top: 70px;
+}
+body.dark-mode .dashboard-sidebar {
+    background: rgba(9, 13, 31, 0.3);
+}
+
+.dashboard-content {
+    padding: 32px;
+    overflow-y: auto;
+}
+
+@media (max-width: 991px) {
+    .dashboard-grid {
+        grid-template-columns: 1fr;
+    }
+    .dashboard-sidebar {
+        display: none; /* Hide on mobile; trigger drawer if needed */
+    }
+}
+
+/* Glass-style tab buttons */
+.nav-pills-glass .nav-link {
+    color: var(--text-secondary);
+    border-radius: var(--radius-sm);
+    padding: 12px 20px;
+    margin-bottom: 6px;
+    transition: all var(--transition-fast);
+}
+.nav-pills-glass .nav-link.active {
+    background: var(--primary-color);
+    color: white;
+}
+.nav-pills-glass .nav-link:hover:not(.active) {
+    background: rgba(255, 255, 255, 0.25);
+    color: var(--text-primary);
+}
+body.dark-mode .nav-pills-glass .nav-link:hover:not(.active) {
+    background: rgba(255, 255, 255, 0.05);
+}
+
+/* Editor Grid */
+.editor-layout {
+    display: grid;
+    grid-template-columns: 55% 45%;
+    gap: 20px;
+    height: calc(100vh - 70px);
+    margin-top: 70px;
+    overflow: hidden;
+}
+
+.editor-form-pane {
+    padding: 24px;
+    overflow-y: auto;
+    height: 100%;
+}
+
+.editor-preview-pane {
+    padding: 24px;
+    background: #475569; /* Slate 600 background to pop out the resume canvas */
+    overflow-y: auto;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+}
+body.dark-mode .editor-preview-pane {
+    background: #0f172a;
+}
+
+/* Resume Document Frame */
+.resume-canvas {
+    width: 210mm; /* A4 width */
+    min-height: 297mm; /* A4 height */
+    background: white;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+    padding: 20mm;
+    color: #333333;
+    font-family: 'Inter', sans-serif;
+    position: relative;
+    box-sizing: border-box;
+    transform-origin: top center;
+}
+
+/* Responsive Media Queries for Mobile/Tablets */
+@media (max-width: 991px) {
+    .editor-layout {
+        grid-template-columns: 1fr;
+        height: auto;
+        overflow: visible;
+        margin-top: 60px;
+    }
+    .editor-form-pane {
+        height: auto;
+        overflow: visible;
+        padding: 16px;
+    }
+    .editor-preview-pane {
+        height: auto;
+        overflow: visible;
+        padding: 16px 8px;
+    }
+    .resume-canvas {
+        margin: 0 auto;
+    }
+}
+
+
+/* Print spacing overrides for templates.css */
+@media print {
+    body {
+        background: white !important;
+        color: black !important;
+    }
+    .resume-canvas {
+        box-shadow: none !important;
+        margin: 0 !important;
+        padding: 10mm !important;
+        width: 100% !important;
+        min-height: auto !important;
+    }
+}
+
+/* ==========================================================================
+   Contrast & Usability Enhancements
+   ========================================================================== */
+
+/* Active Accordion Headers Contrast Fix */
+.accordion-button {
+    color: var(--text-primary) !important;
+    background-color: rgba(255, 255, 255, 0.05) !important;
+    transition: all var(--transition-fast);
+}
+.accordion-button:focus {
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.25) !important;
+}
+.accordion-button:not(.collapsed) {
+    color: #ffffff !important;
+    background-color: var(--primary-color) !important;
+}
+body.dark-mode .accordion-button::after {
+    filter: invert(1);
+}
+
+/* Glassmorphic Responsive Modals */
+.modal-glass {
+    background: var(--card-bg) !important;
+    backdrop-filter: blur(25px) !important;
+    -webkit-backdrop-filter: blur(25px) !important;
+    border: 1px solid var(--glass-border) !important;
+    color: var(--text-primary) !important;
+    box-shadow: var(--glass-shadow) !important;
+}
+.modal-glass .modal-header {
+    border-bottom: 1px solid var(--border-color) !important;
+}
+.modal-glass .modal-footer {
+    border-top: 1px solid var(--border-color) !important;
+}
+
+/* Form Dropdown Select Menu Options Fix */
+select.form-control-glass option {
+    background-color: var(--bg-solid) !important;
+    color: var(--text-primary) !important;
+}
+
+/* Glassmorphic Theme-Adaptive Tables */
+.table-glass {
+    background: transparent !important;
+    color: var(--text-primary) !important;
+    border-color: var(--border-color) !important;
+}
+.table-glass th {
+    border-bottom: 2px solid var(--border-color) !important;
+    background-color: rgba(255, 255, 255, 0.05) !important;
+    color: var(--text-secondary) !important;
+    font-weight: 600;
+}
+body.dark-mode .table-glass th {
+    background-color: rgba(0, 0, 0, 0.2) !important;
+}
+.table-glass td {
+    border-bottom: 1px solid var(--border-color) !important;
+    background-color: transparent !important;
+    color: var(--text-secondary) !important;
+}
+
+/* High Contrast Form Label Placement */
+label.form-label {
+    color: var(--text-secondary) !important;
+    font-weight: 500;
+    margin-bottom: 6px;
+}
+
+/* Navbar Link Hover Enhancements */
+.glass-nav .nav-link {
+    color: var(--text-secondary) !important;
+    font-weight: 500;
+    transition: color var(--transition-fast);
+}
+.glass-nav .nav-link:hover, 
+.glass-nav .nav-link.active {
+    color: var(--primary-color) !important;
+}
+body.dark-mode .glass-nav .nav-link:hover {
+    color: #ffffff !important;
+}
+

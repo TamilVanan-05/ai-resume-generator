@@ -1,0 +1,291 @@
+/* ==========================================================================
+   AI Resume Generator CSS Templates Layout Styling
+   Contains specific typography and layout properties for all 15 formats
+   ========================================================================== */
+
+/* Template: General resets to isolate inside canvas */
+.resume-canvas * {
+    transition: none !important;
+}
+
+.resume-canvas a {
+    color: inherit;
+    text-decoration: none;
+}
+
+/* 1. MODERN */
+.template-modern {
+    display: grid;
+    grid-template-columns: 35% 65%;
+    padding: 0 !important;
+    min-height: 297mm;
+}
+.template-modern .sidebar {
+    background: #f1f5f9;
+    padding: 20mm 10mm;
+    border-right: 2px solid #e2e8f0;
+}
+.template-modern .main-col {
+    padding: 20mm 10mm;
+}
+.template-modern h2 {
+    font-size: 14pt;
+    border-bottom: 2px solid var(--theme-color, #1e3a8a);
+    padding-bottom: 3px;
+    margin-bottom: 10px;
+    text-transform: uppercase;
+    color: var(--theme-color, #1e3a8a);
+}
+
+/* 2. PROFESSIONAL */
+.template-professional .header-banner {
+    background: var(--theme-color, #0f172a);
+    color: white;
+    margin: -20mm -20mm 10mm -20mm;
+    padding: 15mm 20mm;
+}
+.template-professional h2 {
+    font-size: 13pt;
+    color: var(--theme-color, #0f172a);
+    border-bottom: 1.5px solid #cbd5e1;
+    padding-bottom: 4px;
+    margin-top: 15px;
+    margin-bottom: 8px;
+    text-transform: uppercase;
+}
+
+/* 3. HARVARD */
+.template-harvard {
+    font-family: 'Georgia', serif;
+    line-height: 1.4;
+}
+.template-harvard .header {
+    text-align: center;
+    border-bottom: 2px double #000;
+    padding-bottom: 10px;
+    margin-bottom: 15px;
+}
+.template-harvard h2 {
+    font-family: 'Georgia', serif;
+    font-size: 12pt;
+    text-align: center;
+    border-bottom: 1px solid #000;
+    padding-bottom: 2px;
+    margin-top: 18px;
+    margin-bottom: 10px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+/* 4. STANFORD */
+.template-stanford {
+    font-family: 'Times New Roman', serif;
+}
+.template-stanford .header {
+    border-left: 5px solid var(--theme-color, #8c1515);
+    padding-left: 15px;
+    margin-bottom: 20px;
+}
+.template-stanford h2 {
+    font-size: 13pt;
+    color: var(--theme-color, #8c1515);
+    border-bottom: 1px solid var(--theme-color, #8c1515);
+    margin-top: 15px;
+    margin-bottom: 8px;
+}
+
+/* 5. CORPORATE */
+.template-corporate h2 {
+    font-size: 13pt;
+    color: var(--theme-color, #1e40af);
+    border-left: 4px solid var(--theme-color, #1e40af);
+    padding-left: 8px;
+    margin-top: 15px;
+    margin-bottom: 8px;
+    text-transform: uppercase;
+}
+
+/* 6. CREATIVE */
+.template-creative .avatar-box {
+    width: 60px;
+    height: 60px;
+    background: var(--theme-color, #db2777);
+    color: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+.template-creative h2 {
+    font-size: 13pt;
+    color: var(--theme-color, #db2777);
+    background: rgba(219, 39, 119, 0.08);
+    padding: 6px 12px;
+    border-radius: 4px;
+    margin-top: 15px;
+    margin-bottom: 8px;
+}
+
+/* 7. MINIMAL */
+.template-minimal {
+    font-family: 'Inter', sans-serif;
+    line-height: 1.5;
+}
+.template-minimal h2 {
+    font-size: 11pt;
+    font-weight: 600;
+    color: #18181b;
+    border-bottom: 1px solid #e4e4e7;
+    padding-bottom: 4px;
+    margin-top: 15px;
+    margin-bottom: 8px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+/* 8. GOOGLE STYLE */
+.template-google {
+    font-family: 'Arial', sans-serif;
+    font-size: 10pt;
+    line-height: 1.3;
+}
+.template-google .header {
+    text-align: center;
+}
+.template-google h2 {
+    font-family: 'Arial', sans-serif;
+    font-size: 11pt;
+    font-weight: bold;
+    border-bottom: 1px solid #000;
+    margin-top: 12px;
+    margin-bottom: 6px;
+}
+
+/* 9. MICROSOFT STYLE */
+.template-microsoft {
+    font-family: 'Segoe UI', sans-serif;
+}
+.template-microsoft h2 {
+    font-size: 12pt;
+    color: var(--theme-color, #0078d4);
+    font-weight: 600;
+    margin-top: 15px;
+    margin-bottom: 6px;
+}
+.template-microsoft .divider {
+    height: 2px;
+    background: var(--theme-color, #0078d4);
+    margin-bottom: 10px;
+}
+
+/* 10. AMAZON STYLE */
+.template-amazon {
+    font-family: 'Calibri', sans-serif;
+    font-size: 10pt;
+    line-height: 1.25;
+}
+.template-amazon h2 {
+    font-size: 11pt;
+    font-weight: bold;
+    color: #111;
+    border-bottom: 2px solid #ff9900;
+    margin-top: 12px;
+    margin-bottom: 6px;
+    text-transform: uppercase;
+}
+
+/* 11. AI ENGINEER */
+.template-ai_engineer {
+    background: #0b1329;
+    color: #f8fafc;
+}
+.template-ai_engineer .accent-heading {
+    color: var(--theme-color, #7c3aed);
+}
+.template-ai_engineer h2 {
+    font-size: 13pt;
+    color: var(--theme-color, #7c3aed);
+    border-bottom: 1px dashed var(--theme-color, #7c3aed);
+    margin-top: 15px;
+    margin-bottom: 8px;
+}
+.template-ai_engineer .badge {
+    background: rgba(124, 58, 237, 0.2);
+    border: 1px solid var(--theme-color, #7c3aed);
+    color: #e9d5ff;
+}
+
+/* 12. MEDICAL CODING */
+.template-medical h2 {
+    font-size: 13pt;
+    color: var(--theme-color, #0891b2);
+    border-bottom: 1.5px solid var(--theme-color, #0891b2);
+    margin-top: 15px;
+    margin-bottom: 8px;
+}
+
+/* 13. FRESHER */
+.template-fresher .objective-box {
+    border: 1px solid #10b981;
+    background: #f0fdf4;
+    padding: 10px;
+    border-radius: 6px;
+    margin-bottom: 15px;
+}
+.template-fresher h2 {
+    font-size: 13pt;
+    color: var(--theme-color, #059669);
+    border-bottom: 2px solid var(--theme-color, #059669);
+    margin-top: 15px;
+    margin-bottom: 8px;
+}
+
+/* 14. DEVELOPER */
+.template-developer h2 {
+    font-size: 13pt;
+    color: var(--theme-color, #0284c7);
+    margin-top: 15px;
+    margin-bottom: 8px;
+}
+.template-developer .tech-tag {
+    background: #e0f2fe;
+    color: #0369a1;
+    padding: 3px 8px;
+    border-radius: 4px;
+    font-size: 9pt;
+    display: inline-block;
+    margin-right: 5px;
+    margin-bottom: 5px;
+}
+
+/* 15. DATA ANALYST */
+.template-data_analyst h2 {
+    font-size: 13pt;
+    color: var(--theme-color, #d97706);
+    border-bottom: 2px solid #cbd5e1;
+    margin-top: 15px;
+    margin-bottom: 8px;
+}
+.template-data_analyst .tool-rating {
+    display: inline-block;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: #cbd5e1;
+    margin-right: 3px;
+}
+.template-data_analyst .tool-rating.active {
+    background: var(--theme-color, #d97706);
+}
+
+/* Shared typography scaling via UI controls */
+.resume-canvas.font-sm { font-size: 8pt !important; }
+.resume-canvas.font-md { font-size: 10.5pt !important; }
+.resume-canvas.font-lg { font-size: 12.5pt !important; }
+
+.resume-canvas.spacing-compact p, .resume-canvas.spacing-compact li { margin-bottom: 2px !important; line-height: 1.15; }
+.resume-canvas.spacing-normal p, .resume-canvas.spacing-normal li { margin-bottom: 6px !important; line-height: 1.35; }
+.resume-canvas.spacing-relaxed p, .resume-canvas.spacing-relaxed li { margin-bottom: 10px !important; line-height: 1.5; }

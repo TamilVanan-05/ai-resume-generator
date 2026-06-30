@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resum.AI - Access Your Account</title>
+    <!-- Bootstrap 5 -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <!-- Main styles -->
+    <link href="/css/main.css" rel="stylesheet">
+</head>
+<body class="d-flex align-items-center min-vh-100 py-5">
+
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-6 col-lg-5 col-xl-4 text-center">
+                <!-- Brand logo -->
+                <a href="/" class="d-inline-flex align-items-center mb-4 text-decoration-none fw-bold fs-3 text-primary">
+                    <i class="fa-solid fa-wand-magic-sparkles me-2"></i>
+                    <span class="text-white-50">Resum</span><span class="text-primary">.AI</span>
+                </a>
+                
+                <!-- Main Glass Card -->
+                <div class="glass-card p-4 text-start animate-fade-in">
+                    
+                    <!-- Alert Box -->
+                    <div id="auth-alert" class="alert d-none mb-3" role="alert"></div>
+
+                    <!-- 1. LOGIN FORM -->
+                    <div id="login-container">
+                        <h3 class="fw-bold mb-3">Sign In</h3>
+                        <p class="text-secondary mb-4">Welcome back! Access your resumes dashboard.</p>
+                        
+                        <form id="login-form">
+                            <div class="mb-3">
+                                <label for="login-email" class="form-label text-secondary">Email Address</label>
+                                <input type="email" id="login-email" class="form-control form-control-glass py-2" required>
+                            </div>
+                            <div class="mb-3">
+                                <div class="d-flex justify-content-between">
+                                    <label for="login-password" class="form-label text-secondary">Password</label>
+                                    <a href="#" onclick="showSection('forgot')" class="text-primary text-decoration-none small">Forgot?</a>
+                                </div>
+                                <input type="password" id="login-password" class="form-control form-control-glass py-2" required>
+                            </div>
+                            <button type="submit" class="btn btn-glass-primary w-100 py-2 mt-2">
+                                <i class="fa-solid fa-right-to-bracket me-2"></i>Sign In
+                            </button>
+                        </form>
+                        <p class="text-center text-secondary mt-4 mb-0">
+                            Don't have an account? <a href="#" onclick="showSection('signup')" class="text-primary text-decoration-none">Sign Up</a>
+                        </p>
+                    </div>
+
+                    <!-- 2. SIGNUP FORM -->
+                    <div id="signup-container" class="d-none">
+                        <h3 class="fw-bold mb-3">Create Account</h3>
+                        <p class="text-secondary mb-4">Start drafting ATS-optimized resumes.</p>
+                        
+                        <form id="signup-form">
+                            <div class="mb-3">
+                                <label for="signup-name" class="form-label text-secondary">Full Name</label>
+                                <input type="text" id="signup-name" class="form-control form-control-glass py-2" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="signup-email" class="form-label text-secondary">Email Address</label>
+                                <input type="email" id="signup-email" class="form-control form-control-glass py-2" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="signup-password" class="form-label text-secondary">Password</label>
+                                <input type="password" id="signup-password" class="form-control form-control-glass py-2" required>
+                            </div>
+                            <button type="submit" class="btn btn-glass-primary w-100 py-2 mt-2">
+                                <i class="fa-solid fa-user-plus me-2"></i>Create Account
+                            </button>
+                        </form>
+                        <p class="text-center text-secondary mt-4 mb-0">
+                            Already registered? <a href="#" onclick="showSection('login')" class="text-primary text-decoration-none">Sign In</a>
+                        </p>
+                    </div>
+
+                    <!-- 3. EMAIL VERIFICATION FORM -->
+                    <div id="verify-container" class="d-none">
+                        <h3 class="fw-bold mb-3">Email Verification</h3>
+                        <p class="text-secondary mb-3">Enter the 6-character code sent to your email.</p>
+                        
+                        <!-- Dev bypass tip for testing ease -->
+                        <div id="verify-bypass-alert" class="alert alert-info py-2 px-3 mb-3 small d-none">
+                            <strong>Dev Mode Code:</strong> <span id="bypass-code-holder"></span>
+                        </div>
+
+                        <form id="verify-form">
+                            <div class="mb-3">
+                                <label for="verify-code" class="form-label text-secondary">Verification Code</label>
+                                <input type="text" id="verify-code" class="form-control form-control-glass py-2 text-center fs-4 fw-bold" placeholder="123456" maxlength="6" required>
+                            </div>
+                            <button type="submit" class="btn btn-glass-primary w-100 py-2">Verify & Create Account</button>
+                        </form>
+                        <p class="text-center mt-3 mb-0">
+                            <a href="#" onclick="showSection('signup')" class="text-secondary text-decoration-none small"><i class="fa-solid fa-arrow-left me-1"></i> Back to sign up</a>
+                        </p>
+                    </div>
+
+                    <!-- 4. FORGOT PASSWORD -->
+                    <div id="forgot-container" class="d-none">
+                        <h3 class="fw-bold mb-3">Recover Password</h3>
+                        <p class="text-secondary mb-4">Enter email to reset password credentials.</p>
+                        
+                        <form id="forgot-form">
+                            <div class="mb-3">
+                                <label for="forgot-email" class="form-label text-secondary">Email Address</label>
+                                <input type="email" id="forgot-email" class="form-control form-control-glass py-2" required>
+                            </div>
+                            <button type="submit" class="btn btn-glass-primary w-100 py-2">Request Reset Link</button>
+                        </form>
+                        <p class="text-center mt-4 mb-0">
+                            <a href="#" onclick="showSection('login')" class="text-secondary text-decoration-none small"><i class="fa-solid fa-arrow-left me-1"></i> Back to sign in</a>
+                        </p>
+                    </div>
+
+                    <!-- 5. RESET PASSWORD FORM -->
+                    <div id="reset-container" class="d-none">
+                        <h3 class="fw-bold mb-3">Reset Password</h3>
+                        <p class="text-secondary mb-4">Set your new password credentials.</p>
+                        
+                        <div id="reset-bypass-alert" class="alert alert-info py-2 px-3 mb-3 small d-none">
+                            <strong>Dev Mode Reset Token:</strong> <span id="reset-token-holder"></span>
+                        </div>
+
+                        <form id="reset-form">
+                            <div class="mb-3">
+                                <label for="reset-token-input" class="form-label text-secondary">Reset Token</label>
+                                <input type="text" id="reset-token-input" class="form-control form-control-glass py-2" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="reset-password-input" class="form-label text-secondary">New Password</label>
+                                <input type="password" id="reset-password-input" class="form-control form-control-glass py-2" required>
+                            </div>
+                            <button type="submit" class="btn btn-glass-primary w-100 py-2">Update Password</button>
+                        </form>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Core config and auth JS -->
+    <script src="/js/config.js"></script>
+    <script src="/js/main.js"></script>
+    <script src="/js/auth.js"></script>
+</body>
+</html>

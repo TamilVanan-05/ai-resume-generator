@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resum.AI - Dashboard</title>
+    <!-- Bootstrap 5 -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- Main styles -->
+    <link href="/css/main.css" rel="stylesheet">
+</head>
+<body>
+
+    <!-- Glassmorphic Navbar -->
+    <nav class="glass-nav navbar navbar-expand-lg navbar-dark py-3">
+        <div class="container-fluid px-4">
+            <a class="navbar-brand d-flex align-items-center fw-bold fs-3 text-primary" href="/">
+                <i class="fa-solid fa-wand-magic-sparkles me-2"></i>
+                <span class="text-white-50">Resum</span><span class="text-primary">.AI</span>
+            </a>
+            <div class="ms-auto d-flex align-items-center gap-3">
+                <button class="btn btn-link theme-toggle-btn p-2" aria-label="Toggle Theme">
+                    <i class="fa-solid fa-moon text-primary"></i>
+                </button>
+                <div class="dropdown">
+                    <button class="btn btn-glass-secondary btn-sm dropdown-toggle d-flex align-items-center gap-2" type="button" data-bs-toggle="dropdown">
+                        <i class="fa-solid fa-user-circle"></i>
+                        <span id="user-display-name">My Account</span>
+                    </button>
+                    <ul class="dropdown-menu dropdown-menu-end bg-dark border border-secondary mt-2">
+                        <li><a class="dropdown-item text-white" href="#" onclick="switchTab('profile')"><i class="fa-solid fa-user-gear me-2"></i>Settings</a></li>
+                        <li><hr class="dropdown-divider border-secondary"></li>
+                        <li><button class="dropdown-item text-danger" onclick="logout()"><i class="fa-solid fa-right-from-bracket me-2"></i>Logout</button></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Dashboard Grid Container -->
+    <div class="dashboard-grid">
+        
+        <!-- Sidebar Navigation -->
+        <aside class="dashboard-sidebar">
+            <h4 class="fw-bold mb-4 text-white-50">Navigation</h4>
+            <div class="nav flex-column nav-pills nav-pills-glass" role="tablist">
+                <button class="nav-link text-start active" id="tab-resumes-btn" onclick="switchTab('resumes')">
+                    <i class="fa-solid fa-file-invoice me-2"></i>My Resumes
+                </button>
+                <button class="nav-link text-start" id="tab-ats-btn" onclick="switchTab('ats')">
+                    <i class="fa-solid fa-chart-bar me-2"></i>ATS Reports
+                </button>
+                <button class="nav-link text-start" id="tab-cover-btn" onclick="switchTab('cover')">
+                    <i class="fa-solid fa-envelope-open-text me-2"></i>Cover Letters
+                </button>
+                <button class="nav-link text-start" id="tab-profile-btn" onclick="switchTab('profile')">
+                    <i class="fa-solid fa-sliders me-2"></i>Profile & Settings
+                </button>
+            </div>
+        </aside>
+
+        <!-- Dynamic Dashboard Content -->
+        <main class="dashboard-content">
+            
+            <!-- Global Alert Info -->
+            <div id="dashboard-alert" class="alert d-none py-2 px-3 mb-3 small" role="alert"></div>
+
+            <!-- Tab 1: MY RESUMES -->
+            <section id="pane-resumes" class="tab-pane-custom animate-fade-in">
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                    <div>
+                        <h2 class="fw-bold mb-1">My Resumes</h2>
+                        <p class="text-secondary mb-0">Create, edit, and duplicate your dynamic templates</p>
+                    </div>
+                    <button class="btn btn-glass-primary px-4 py-2" data-bs-toggle="modal" data-bs-target="#newResumeModal">
+                        <i class="fa-solid fa-plus me-2"></i>Create Resume
+                    </button>
+                </div>
+                
+                <!-- Resumes Grid -->
+                <div id="resumes-grid" class="row g-4">
+                    <!-- Cards injected dynamically -->
+                    <div class="col-12 text-center py-5">
+                        <div class="spinner-border text-primary" role="status"></div>
+                        <p class="text-secondary mt-3">Fetching your resumes list...</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Tab 2: ATS REPORTS -->
+            <section id="pane-ats" class="tab-pane-custom d-none animate-fade-in">
+                <h2 class="fw-bold mb-1">ATS Evaluation Reports</h2>
+                <p class="text-secondary mb-4">Track progress of your optimization iterations</p>
+                
+                <div class="row g-4">
+                    <div class="col-lg-8">
+                        <div class="glass-card p-4 h-100">
+                            <h4 class="mb-3">Score Trends</h4>
+                            <div style="height: 300px; position: relative;">
+                                <canvas id="atsTrendsChart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4">
+                        <div class="glass-card p-4 h-100 d-flex flex-column justify-content-center align-items-center text-center">
+                            <div class="p-3 bg-primary bg-opacity-10 border border-primary rounded-circle mb-3">
+                                <i class="fa-solid fa-gauge-high fs-1 text-primary"></i>
+                            </div>
+                            <h4 class="fw-bold">Average ATS Score</h4>
+                            <h2 class="display-3 fw-bold text-primary mb-2" id="avg-ats-holder">0</h2>
+                            <p class="text-secondary mb-0">Aim for a score of 80+ to stay ahead of 90% of applicants.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Tab 3: COVER LETTERS -->
+            <section id="pane-cover" class="tab-pane-custom d-none animate-fade-in">
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                    <div>
+                        <h2 class="fw-bold mb-1">AI Cover Letters</h2>
+                        <p class="text-secondary mb-0">Manage cover letters drafted using Gemini API</p>
+                    </div>
+                </div>
+                
+                <div class="glass-card p-4">
+                    <div class="table-responsive">
+                        <table class="table table-glass table-hover mb-0 align-middle">
+                            <thead>
+                                <tr>
+                                    <th>Letter Title</th>
+                                    <th>Target Position</th>
+                                    <th>Created Date</th>
+                                    <th class="text-end">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="cover-letters-table">
+                                <tr>
+                                    <td colspan="4" class="text-center text-secondary py-4">No cover letters generated yet. Generate one inside the Resume Editor's AI Assistant.</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Tab 4: PROFILE & SETTINGS -->
+            <section id="pane-profile" class="tab-pane-custom d-none animate-fade-in">
+                <h2 class="fw-bold mb-1">Profile Configurations</h2>
+                <p class="text-secondary mb-4">Manage login credentials and system settings</p>
+                
+                <div class="row g-4">
+                    <div class="col-md-6">
+                        <div class="glass-card p-4">
+                            <h4 class="fw-bold mb-3">Update Personal Details</h4>
+                            <form id="profile-details-form">
+                                <div class="mb-3">
+                                    <label class="form-label text-secondary">Full Name</label>
+                                    <input type="text" id="profile-name" class="form-control form-control-glass py-2" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label text-secondary">Email (read-only)</label>
+                                    <input type="email" id="profile-email" class="form-control form-control-glass py-2" disabled>
+                                </div>
+                                <button type="submit" class="btn btn-glass-primary py-2 px-4">Save Changes</button>
+                            </form>
+                        </div>
+                    </div>
+                    
+                    <div class="col-md-6">
+                        <div class="glass-card p-4">
+                            <h4 class="fw-bold mb-3">Change Security Password</h4>
+                            <form id="profile-password-form">
+                                <div class="mb-3">
+                                    <label class="form-label text-secondary">New Password</label>
+                                    <input type="password" id="profile-new-password" class="form-control form-control-glass py-2" required>
+                                </div>
+                                <button type="submit" class="btn btn-glass-primary py-2 px-4">Update Password</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+        </main>
+    </div>
+
+    <!-- Create Resume Modal Dialog -->
+    <div class="modal fade" id="newResumeModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content modal-glass">
+                <div class="modal-header">
+                    <h5 class="modal-title fw-bold">Create New Resume</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <form id="create-resume-form">
+                    <div class="modal-body">
+                        <div class="mb-3">
+                            <label for="new-resume-title" class="form-label text-secondary">Resume Title</label>
+                            <input type="text" id="new-resume-title" class="form-control form-control-glass" placeholder="e.g. Software Engineer 2026" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="new-resume-template" class="form-label text-secondary">Starter Layout Style</label>
+                            <select id="new-resume-template" class="form-select form-control-glass">
+                                <option value="modern">Modern (Recommended)</option>
+                                <option value="professional">Professional</option>
+                                <option value="harvard">Harvard (Academic)</option>
+                                <option value="minimal">Minimalist</option>
+                                <option value="developer">Software Developer</option>
+                                <option value="ai_engineer">AI Engineer</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="modal-footer border-secondary">
+                        <button type="button" class="btn btn-outline-secondary btn-sm" data-bs-dismiss="modal">Cancel</button>
+                        <button type="submit" class="btn btn-primary btn-sm">Create Workspace</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- View Cover Letter Modal -->
+    <div class="modal fade" id="viewCoverModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-lg modal-dialog-centered">
+            <div class="modal-content modal-glass">
+                <div class="modal-header">
+                    <h5 class="modal-title fw-bold" id="cover-modal-title">Cover Letter</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <textarea id="cover-modal-body" class="form-control form-control-glass w-100" rows="18" style="font-family: monospace; font-size: 10pt; resize: vertical;"></textarea>
+                </div>
+                <div class="modal-footer border-secondary">
+                    <button onclick="copyCoverLetterText()" class="btn btn-outline-primary btn-sm"><i class="fa-solid fa-copy me-2"></i>Copy Text</button>
+                    <button type="button" class="btn btn-outline-secondary btn-sm" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap 5 Bundle JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Core and dashboard JS logic -->
+    <script src="/js/config.js"></script>
+    <script src="/js/main.js"></script>
+    <script src="/js/dashboard.js"></script>
+</body>
+</html>
