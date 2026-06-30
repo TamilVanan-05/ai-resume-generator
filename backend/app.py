@@ -48,6 +48,10 @@ def create_app():
     def serve_admin():
         return send_from_directory(app.static_folder, 'admin.html')
         
+    @app.route('/templates')
+    def serve_templates():
+        return send_from_directory(app.static_folder, 'templates.html')
+        
     @app.route('/share/<int:resume_id>')
     def serve_share(resume_id):
         return send_from_directory(app.static_folder, 'share.html')
