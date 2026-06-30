@@ -123,14 +123,44 @@ function openCanvaPreview(templateId) {
     useBtn.onclick = () => {
         // Close modal first
         const modalEl = document.getElementById("canvaPreviewModal");
-        const modal = bootstrap.Modal.getInstance(modalEl);
+        const modal = bootstrap.Modal.getInstance(modalEl) || new bootstrap.Modal(modalEl);
         if (modal) modal.hide();
         
         useTemplateOnLanding(templateId);
     };
     
-    // Trigger bootstrap modal
+    // Render "More like this" row (up to 4 recommendations)
+    const relatedList = ALL_TEMPLATES.filter(t => t.category === template.category && t.id !== templateId);
+    // Fill with others if not enough
+    if (relatedList.length < 4) {
+        ALL_TEMPLATES.forEach(t => {
+            if (t.id !== templateId && !relatedList.includes(t) && relatedList.length < 4) {
+                relatedList.push(t);
+            }
+        });
+    }
+    
+    const moreLikeThisContainer = document.getElementById("preview-more-like-this");
+    if (moreLikeThisContainer) {
+        moreLikeThisContainer.innerHTML = relatedList.map(t => {
+            return `
+                <div class="col-6 col-md-3">
+                    <div onclick="openCanvaPreview('${t.id}')" class="canva-grid-card p-2 text-center" style="cursor: pointer; min-height: 120px;">
+                        <div class="canva-preview-holder mb-2" style="height: 70px;">
+                            <i class="fa-solid ${t.icon} ${t.color} fs-2 opacity-75"></i>
+                        </div>
+                        <h6 class="fw-bold text-white small mb-0 text-truncate" style="font-size: 0.8rem;">${t.name}</h6>
+                    </div>
+                </div>
+            `;
+        }).join("");
+    }
+    
+    // Trigger bootstrap modal if not open
     const modalEl = document.getElementById("canvaPreviewModal");
-    const modal = new bootstrap.Modal(modalEl);
-    modal.show();
+    let modal = bootstrap.Modal.getInstance(modalEl);
+    if (!modal) {
+        modal = new bootstrap.Modal(modalEl);
+        modal.show();
+    }
 }

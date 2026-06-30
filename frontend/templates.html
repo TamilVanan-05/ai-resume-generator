@@ -320,41 +320,61 @@
 
     <!-- Canva Preview Modal Dialog -->
     <div class="modal fade" id="canvaPreviewModal" tabindex="-1" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-dialog modal-dialog-centered modal-xl">
             <div class="modal-content modal-glass">
-                <div class="modal-header">
+                <div class="modal-header border-0">
                     <h5 class="modal-title fw-bold text-white"><i class="fa-solid fa-eye text-primary me-2"></i>Template Details</h5>
                     <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body p-4">
-                    <div class="row g-4">
-                        <div class="col-md-6 text-center">
-                            <div class="bg-secondary bg-opacity-10 border border-secondary rounded p-5 h-100 d-flex flex-column align-items-center justify-content-center" style="min-height: 280px;">
+                    <div class="row g-4 align-items-stretch">
+                        <!-- Left: Large Template Mockup view -->
+                        <div class="col-lg-7 text-center">
+                            <div class="bg-secondary bg-opacity-10 border border-secondary rounded p-4 d-flex flex-column align-items-center justify-content-center" style="min-height: 440px; position: relative;">
                                 <i id="preview-modal-icon" class="fa-solid fa-file-invoice text-primary display-1 mb-3"></i>
-                                <span class="badge bg-secondary">A4 Print Standard</span>
+                                <span class="badge bg-secondary mb-3">A4 Portrait (21 x 29.7 cm)</span>
+                                <h4 class="text-white-50 small mb-0">Interactive A4 template mockup workspace template</h4>
                             </div>
                         </div>
-                        <div class="col-md-6 d-flex flex-column justify-content-between">
+                        
+                        <!-- Right: Detailed actions -->
+                        <div class="col-lg-5 d-flex flex-column justify-content-between">
                             <div>
-                                <h3 id="preview-modal-title" class="fw-bold text-white mb-2">Modern Minimal</h3>
-                                <div class="mb-3">
-                                    <span class="badge bg-primary px-3 py-2 text-capitalize" id="preview-modal-category">Professional</span>
-                                    <span class="badge bg-success px-3 py-2"><i class="fa-solid fa-circle-check me-1"></i>ATS Optimized</span>
-                                </div>
-                                <p id="preview-modal-desc" class="text-secondary small mb-4">Clean grid, bold title blocks. Highly recommended for Tech and Sales roles.</p>
+                                <h2 id="preview-modal-title" class="fw-bold text-white mb-1">Blue Simple Professional CV Resume</h2>
+                                <p class="text-secondary small mb-3">Resume (A4 Portrait) &bull; 21 &times; 29.7 cm &bull; ATS Compliant</p>
                                 
-                                <h6 class="fw-bold text-white mb-2">Layout Strengths:</h6>
-                                <ul class="small text-secondary ps-3 mb-4">
-                                    <li>Double column spacing metrics</li>
-                                    <li>Custom color themes and font variables</li>
-                                    <li>100% compliant with standard recruit bots</li>
-                                    <li>Interactive layout drag reordering</li>
-                                </ul>
+                                <!-- Publisher Badge -->
+                                <div class="d-flex align-items-center gap-2 mb-4 p-2 bg-dark bg-opacity-40 rounded">
+                                    <div class="rounded-circle bg-primary d-flex align-items-center justify-content-center text-white fw-bold" style="width: 36px; height: 36px;">R</div>
+                                    <div>
+                                        <p class="mb-0 small fw-bold text-white">By Resum.AI Designer</p>
+                                        <p class="mb-0 text-secondary" style="font-size: 0.75rem;">Verified Layout Creator</p>
+                                    </div>
+                                    <button class="btn btn-outline-light btn-sm ms-auto py-1 px-3 rounded-pill" style="font-size: 0.8rem;">Follow</button>
+                                </div>
+                                
+                                <p id="preview-modal-desc" class="text-secondary small mb-4">Clean modern layout highlighting key professional experiences, contact information, and skill tags.</p>
                             </div>
                             
-                            <button id="preview-modal-use-btn" class="btn btn-primary py-3 fw-bold w-100 rounded-3">
-                                <i class="fa-solid fa-pen-to-square me-2"></i>Customize this Template
-                            </button>
+                            <div>
+                                <!-- Canva Purple Button -->
+                                <button id="preview-modal-use-btn" class="btn btn-primary py-3 fw-bold w-100 rounded-3 mb-3" style="background-color: #8b5cf6 !important; border-color: #8b5cf6 !important;">
+                                    Customize this template
+                                </button>
+                                
+                                <div class="d-flex gap-2">
+                                    <button class="btn btn-outline-light py-2 px-3 rounded-3 flex-fill"><i class="fa-regular fa-star me-2"></i>Favorite</button>
+                                    <button class="btn btn-outline-light py-2 px-3 rounded-3"><i class="fa-solid fa-ellipsis"></i></button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- More Like This Row -->
+                    <div class="mt-5 border-top border-secondary-subtle pt-4">
+                        <h4 class="fw-bold text-white mb-3">More like this</h4>
+                        <div class="row g-3" id="preview-more-like-this">
+                            <!-- Injected similarly categorized templates -->
                         </div>
                     </div>
                 </div>
