@@ -332,10 +332,19 @@ function loadTemplatesList() {
     const templates = [
         { id: "modern", name: "Modern" },
         { id: "professional", name: "Professional" },
-        { id: "harvard", name: "Harvard (Serif)" },
+        { id: "harvard", name: "Harvard" },
+        { id: "stanford", name: "Stanford" },
+        { id: "corporate", name: "Corporate" },
+        { id: "creative", name: "Creative" },
         { id: "minimal", name: "Minimal" },
+        { id: "google", name: "Google Style" },
+        { id: "microsoft", name: "Microsoft Style" },
+        { id: "amazon", name: "Amazon Style" },
         { id: "ai_engineer", name: "AI Engineer" },
-        { id: "fresher", name: "Fresher" }
+        { id: "medical", name: "Medical Coding" },
+        { id: "fresher", name: "Fresher" },
+        { id: "developer", name: "Software Developer" },
+        { id: "data_analyst", name: "Data Analyst" }
     ];
     
     select.innerHTML = templates.map(t => `<option value="${t.id}">${t.name}</option>`).join("");
