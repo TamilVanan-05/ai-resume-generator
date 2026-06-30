@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Resum.AI - Premium Resume Templates Directory</title>
+    <title>Templates - Resum.AI</title>
     <!-- Bootstrap 5 -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- Font Awesome -->
@@ -16,36 +16,176 @@
     <link href="/css/main.css" rel="stylesheet">
     <style>
         body {
-            padding-top: 90px;
+            padding-top: 80px;
+            background-color: #0f172a;
+            color: #f8fafc;
+            font-family: 'Inter', sans-serif;
         }
-        .filter-badge {
-            cursor: pointer;
+        
+        /* Canva-style Top Gradient Header */
+        .canva-header-bg {
+            background: radial-gradient(circle at top, rgba(139, 92, 246, 0.18) 0%, rgba(59, 130, 246, 0.05) 50%, transparent 100%);
+            padding: 50px 0 40px 0;
+            text-align: center;
+        }
+        
+        .canva-title {
+            font-family: 'Outfit', sans-serif;
+            font-size: 3.5rem;
+            font-weight: 700;
+            color: #ffffff;
+            margin-bottom: 24px;
+        }
+
+        /* Rounded Search Bar exactly like Canva */
+        .canva-search-container {
+            max-width: 680px;
+            margin: 0 auto;
+            position: relative;
+        }
+        .canva-search-bar {
+            background-color: #1e293b !important;
+            border: 2px solid rgba(139, 92, 246, 0.4) !important;
+            border-radius: 50px !important;
+            color: #ffffff !important;
+            padding: 16px 24px 16px 56px !important;
+            font-size: 1.1rem;
             transition: all var(--transition-fast);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.25) !important;
         }
-        .filter-badge.active {
-            background-color: var(--primary-color) !important;
-            color: white !important;
-            box-shadow: 0 0 10px rgba(59, 130, 246, 0.4);
+        .canva-search-bar:focus {
+            border-color: #8b5cf6 !important;
+            box-shadow: 0 0 15px rgba(139, 92, 246, 0.3) !important;
         }
-        .template-preview-mockup {
-            height: 220px;
-            background: linear-gradient(135deg, rgba(255,255,255,0.05) 0%, rgba(255,255,255,0.01) 100%);
+        .canva-search-icon {
+            position: absolute;
+            left: 22px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #94a3b8;
+            font-size: 1.25rem;
+            pointer-events: none;
+            z-index: 10;
+        }
+
+        /* Canva rounded pill buttons */
+        .canva-pill {
+            background: #1e293b;
+            border: 1px solid #334155;
+            color: #94a3b8;
+            border-radius: 50px;
+            padding: 8px 20px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: all var(--transition-fast);
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .canva-pill:hover {
+            border-color: #475569;
+            color: #ffffff;
+            background: #334155;
+        }
+        .canva-pill.active {
+            background: #8b5cf6 !important;
+            border-color: #8b5cf6 !important;
+            color: #ffffff !important;
+            box-shadow: 0 0 10px rgba(139, 92, 246, 0.4);
+        }
+
+        /* Canva "Explore templates" horizontal gradient cards */
+        .explore-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #ffffff;
+            margin-bottom: 20px;
+        }
+        
+        .canva-cat-card {
+            border-radius: 12px;
+            padding: 20px;
+            height: 110px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            color: #ffffff;
+            text-decoration: none;
+            transition: all var(--transition-medium);
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+            border: 1px solid rgba(255,255,255,0.05);
+            overflow: hidden;
+            position: relative;
+        }
+        .canva-cat-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.25);
+        }
+        .canva-cat-card h5 {
+            font-size: 1.2rem;
+            font-weight: 700;
+            margin-bottom: 0;
+            z-index: 2;
+        }
+        .canva-cat-card i {
+            font-size: 2.5rem;
+            opacity: 0.25;
+            transition: all var(--transition-medium);
+            z-index: 1;
+        }
+        .canva-cat-card:hover i {
+            opacity: 0.5;
+            transform: scale(1.1);
+        }
+        
+        /* Gradients matching Canva screenshot style */
+        .grad-professional { background: linear-gradient(135deg, #fed7aa 0%, #ffedd5 100%); color: #431407 !important; }
+        .grad-professional i { color: #431407; }
+        
+        .grad-tech { background: linear-gradient(135deg, #e0e7ff 0%, #c7d2fe 100%); color: #1e1b4b !important; }
+        .grad-tech i { color: #1e1b4b; }
+        
+        .grad-minimalist { background: linear-gradient(135deg, #dbeafe 0%, #bfdbfe 100%); color: #172554 !important; }
+        .grad-minimalist i { color: #172554; }
+        
+        .grad-academic { background: linear-gradient(135deg, #ffedd5 0%, #fef3c7 100%); color: #451a03 !important; }
+        .grad-academic i { color: #451a03; }
+        
+        .grad-creative { background: linear-gradient(135deg, #f3e8ff 0%, #e9d5ff 100%); color: #3b0764 !important; }
+        .grad-creative i { color: #3b076 purple; }
+
+        .grad-all { background: linear-gradient(135deg, #fae8ff 0%, #f5d0fe 100%); color: #4a044e !important; }
+        .grad-all i { color: #4a044e; }
+
+        /* Premium Template Cards grid */
+        .canva-grid-card {
+            background-color: #1e293b;
+            border: 1px solid #334155;
+            border-radius: 12px;
+            overflow: hidden;
+            transition: all var(--transition-medium);
+            height: 100%;
+            display: flex;
+            flex-column: column;
+            justify-content: space-between;
+        }
+        .canva-grid-card:hover {
+            transform: translateY(-6px);
+            border-color: #475569;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+        .canva-preview-holder {
+            height: 200px;
+            background: linear-gradient(135deg, rgba(255,255,255,0.03) 0%, rgba(255,255,255,0.01) 100%);
             display: flex;
             align-items: center;
             justify-content: center;
-            transition: all var(--transition-medium);
+            border-bottom: 1px solid #334155;
+            position: relative;
         }
-        .template-card:hover .template-preview-mockup {
-            background: linear-gradient(135deg, rgba(59,130,246,0.15) 0%, rgba(255,255,255,0.02) 100%);
-        }
-        .sidebar-links .nav-link {
-            color: var(--text-secondary);
-            border-radius: var(--radius-sm);
-            transition: all var(--transition-fast);
-        }
-        .sidebar-links .nav-link:hover, .sidebar-links .nav-link.active {
-            background: rgba(59, 130, 246, 0.1);
-            color: var(--primary-color);
+        .canva-grid-card:hover .canva-preview-holder {
+            background: linear-gradient(135deg, rgba(139,92,246,0.1) 0%, rgba(255,255,255,0.01) 100%);
         }
     </style>
 </head>
@@ -91,62 +231,107 @@
         </div>
     </nav>
 
-    <!-- Canva-style Directory Headers -->
-    <div class="container py-4">
-        <div class="glass-card p-5 mb-4 text-center animate-fade-in" style="background: linear-gradient(135deg, rgba(59,130,246,0.1) 0%, rgba(255,255,255,0.03) 100%);">
-            <h1 class="display-5 fw-bold text-white mb-2">Free Resume Templates</h1>
-            <p class="text-secondary max-width-600 mx-auto mb-4">Choose from 15 professional, ATS-optimized layout structures to build your resume. Free to customize, share, and export.</p>
+    <!-- Canva Radial Header -->
+    <div class="canva-header-bg">
+        <div class="container">
+            <h1 class="canva-title">Templates</h1>
             
-            <!-- Search bar -->
-            <div class="input-group max-width-600 mx-auto" style="max-width: 600px;">
-                <span class="input-group-text bg-dark border-secondary text-secondary"><i class="fa-solid fa-magnifying-glass"></i></span>
-                <input type="text" id="template-search" class="form-control form-control-glass py-2" placeholder="Search templates (e.g. Modern, Serif, Developer...)" onkeyup="filterTemplates()">
+            <!-- Canva Centered Search bar -->
+            <div class="canva-search-container mb-4">
+                <i class="fa-solid fa-magnifying-glass canva-search-icon"></i>
+                <input type="text" id="template-search" class="form-control canva-search-bar" placeholder="Search templates (e.g. Harvard, Modern, Minimalist...)" onkeyup="filterTemplates()">
+            </div>
+            
+            <!-- Canva pill buttons -->
+            <div class="d-flex justify-content-center flex-wrap gap-2 mt-4" id="pills-container">
+                <button onclick="filterCategory('all', event)" class="canva-pill active" id="pill-all">
+                    <i class="fa-solid fa-border-all"></i>All
+                </button>
+                <button onclick="filterCategory('professional', event)" class="canva-pill" id="pill-professional">
+                    <i class="fa-solid fa-briefcase"></i>Professional
+                </button>
+                <button onclick="filterCategory('tech', event)" class="canva-pill" id="pill-tech">
+                    <i class="fa-solid fa-code"></i>Tech & AI
+                </button>
+                <button onclick="filterCategory('minimalist', event)" class="canva-pill" id="pill-minimalist">
+                    <i class="fa-solid fa-table-cells-large"></i>Minimalist
+                </button>
+                <button onclick="filterCategory('academic', event)" class="canva-pill" id="pill-academic">
+                    <i class="fa-solid fa-graduation-cap"></i>Academic Standard
+                </button>
+                <button onclick="filterCategory('creative', event)" class="canva-pill" id="pill-creative">
+                    <i class="fa-solid fa-palette"></i>Creative
+                </button>
             </div>
         </div>
     </div>
 
-    <!-- Main templates directory body -->
-    <div class="container py-3">
-        <div class="row g-4">
-            <!-- Sidebar Navigation Categories -->
-            <div class="col-md-3">
-                <div class="glass-card p-3 sticky-top" style="top: 110px;">
-                    <h5 class="fw-bold mb-3 text-white"><i class="fa-solid fa-sliders text-primary me-2"></i>Categories</h5>
-                    <ul class="nav flex-column sidebar-links gap-1">
-                        <li class="nav-item"><a class="nav-link active" href="#" onclick="filterCategory('all', event)">All Templates</a></li>
-                        <li class="nav-item"><a class="nav-link" href="#" onclick="filterCategory('professional', event)">Professional</a></li>
-                        <li class="nav-item"><a class="nav-link" href="#" onclick="filterCategory('tech', event)">Tech & AI</a></li>
-                        <li class="nav-item"><a class="nav-link" href="#" onclick="filterCategory('minimalist', event)">Minimalist</a></li>
-                        <li class="nav-item"><a class="nav-link" href="#" onclick="filterCategory('academic', event)">Academic & Serif</a></li>
-                        <li class="nav-item"><a class="nav-link" href="#" onclick="filterCategory('creative', event)">Creative</a></li>
-                    </ul>
+    <!-- Explore Templates Section -->
+    <div class="container py-4">
+        <h4 class="explore-title">Explore templates</h4>
+        <div class="row g-3">
+            <!-- Grid category links with Canva-styled gradients -->
+            <div class="col-6 col-md-4 col-lg-2">
+                <div onclick="filterCategory('all', event)" class="canva-cat-card grad-all">
+                    <h5>All Layouts</h5>
+                    <i class="fa-solid fa-border-all"></i>
                 </div>
             </div>
-
-            <!-- Templates Grid list -->
-            <div class="col-md-9">
-                <div class="row g-4" id="templates-directory-grid">
-                    <!-- Javascript injected template cards -->
+            <div class="col-6 col-md-4 col-lg-2">
+                <div onclick="filterCategory('professional', event)" class="canva-cat-card grad-professional">
+                    <h5>Professional</h5>
+                    <i class="fa-solid fa-briefcase"></i>
+                </div>
+            </div>
+            <div class="col-6 col-md-4 col-lg-2">
+                <div onclick="filterCategory('tech', event)" class="canva-cat-card grad-tech">
+                    <h5>Tech & AI</h5>
+                    <i class="fa-solid fa-code"></i>
+                </div>
+            </div>
+            <div class="col-6 col-md-4 col-lg-2">
+                <div onclick="filterCategory('minimalist', event)" class="canva-cat-card grad-minimalist">
+                    <h5>Minimalist</h5>
+                    <i class="fa-solid fa-table-cells-large"></i>
+                </div>
+            </div>
+            <div class="col-6 col-md-4 col-lg-2">
+                <div onclick="filterCategory('academic', event)" class="canva-cat-card grad-academic">
+                    <h5>Academic</h5>
+                    <i class="fa-solid fa-graduation-cap"></i>
+                </div>
+            </div>
+            <div class="col-6 col-md-4 col-lg-2">
+                <div onclick="filterCategory('creative', event)" class="canva-cat-card grad-creative">
+                    <h5>Creative</h5>
+                    <i class="fa-solid fa-palette"></i>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- Canva-style Preview Modal Overlay -->
+    <!-- Template Listing Grid -->
+    <div class="container py-5">
+        <h4 class="explore-title" id="grid-list-heading">All Templates</h4>
+        <div class="row g-4" id="templates-directory-grid">
+            <!-- Injected dynamically by javascript -->
+        </div>
+    </div>
+
+    <!-- Canva Preview Modal Dialog -->
     <div class="modal fade" id="canvaPreviewModal" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered modal-lg">
             <div class="modal-content modal-glass">
                 <div class="modal-header">
-                    <h5 class="modal-title fw-bold text-white"><i class="fa-solid fa-eye text-primary me-2"></i>Template Preview</h5>
+                    <h5 class="modal-title fw-bold text-white"><i class="fa-solid fa-eye text-primary me-2"></i>Template Details</h5>
                     <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body p-4">
                     <div class="row g-4">
                         <div class="col-md-6 text-center">
-                            <!-- Large preview container icon -->
                             <div class="bg-secondary bg-opacity-10 border border-secondary rounded p-5 h-100 d-flex flex-column align-items-center justify-content-center" style="min-height: 280px;">
                                 <i id="preview-modal-icon" class="fa-solid fa-file-invoice text-primary display-1 mb-3"></i>
-                                <span class="badge bg-secondary">A4 Layout Matrix</span>
+                                <span class="badge bg-secondary">A4 Print Standard</span>
                             </div>
                         </div>
                         <div class="col-md-6 d-flex flex-column justify-content-between">
@@ -154,16 +339,16 @@
                                 <h3 id="preview-modal-title" class="fw-bold text-white mb-2">Modern Minimal</h3>
                                 <div class="mb-3">
                                     <span class="badge bg-primary px-3 py-2 text-capitalize" id="preview-modal-category">Professional</span>
-                                    <span class="badge bg-success px-3 py-2"><i class="fa-solid fa-circle-check me-1"></i>ATS Friendly</span>
+                                    <span class="badge bg-success px-3 py-2"><i class="fa-solid fa-circle-check me-1"></i>ATS Optimized</span>
                                 </div>
                                 <p id="preview-modal-desc" class="text-secondary small mb-4">Clean grid, bold title blocks. Highly recommended for Tech and Sales roles.</p>
                                 
-                                <h6 class="fw-bold text-white mb-2">Key Layout Strengths:</h6>
+                                <h6 class="fw-bold text-white mb-2">Layout Strengths:</h6>
                                 <ul class="small text-secondary ps-3 mb-4">
-                                    <li>Machine-readable column order</li>
-                                    <li>Flexible font-size scaling controls</li>
-                                    <li>Custom accent color highlights</li>
-                                    <li>Optimized section spacing layouts</li>
+                                    <li>Double column spacing metrics</li>
+                                    <li>Custom color themes and font variables</li>
+                                    <li>100% compliant with standard recruit bots</li>
+                                    <li>Interactive layout drag reordering</li>
                                 </ul>
                             </div>
                             

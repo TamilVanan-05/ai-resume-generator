@@ -51,16 +51,15 @@ function renderTemplatesDirectory() {
     grid.innerHTML = filtered.map(t => {
         return `
             <div class="col-md-6 col-lg-4 animate-fade-in">
-                <div class="glass-card p-3 h-100 d-flex flex-column justify-content-between template-card">
-                    <div class="position-relative overflow-hidden rounded mb-3 template-preview-mockup">
+                <div class="canva-grid-card p-3 d-flex flex-column justify-content-between">
+                    <div class="position-relative overflow-hidden rounded mb-3 canva-preview-holder">
                         <i class="fa-solid ${t.icon} ${t.color} display-3 opacity-75"></i>
-                        <div class="position-absolute bottom-0 start-0 w-100 bg-black bg-opacity-65 py-2 text-white small text-center text-capitalize">${t.category}</div>
                     </div>
                     <div>
                         <h5 class="fw-bold mb-1 text-white">${t.name}</h5>
                         <p class="small text-secondary mb-3 text-truncate-3" style="display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; height: 60px;">${t.desc}</p>
                     </div>
-                    <div class="d-flex gap-2">
+                    <div class="d-flex gap-2 mt-3">
                         <button onclick="openCanvaPreview('${t.id}')" class="btn btn-outline-light btn-sm flex-fill">Preview</button>
                         <button onclick="useTemplateOnLanding('${t.id}')" class="btn btn-glass-primary btn-sm flex-fill">Customize</button>
                     </div>
@@ -74,14 +73,31 @@ function filterCategory(category, event) {
     if (event) event.preventDefault();
     selectedCategory = category;
     
-    // Update active class on sidebar links
-    const links = document.querySelectorAll(".sidebar-links .nav-link");
-    links.forEach(l => {
-        l.classList.remove("active");
-        if (l.textContent.toLowerCase().includes(category) || (category === "all" && l.textContent.toLowerCase().includes("all"))) {
-            l.classList.add("active");
+    // Update active class on Canva pills
+    const pills = document.querySelectorAll(".canva-pill");
+    pills.forEach(p => p.classList.remove("active"));
+    
+    const activePill = document.getElementById(`pill-${category}`);
+    if (activePill) {
+        activePill.classList.add("active");
+    }
+    
+    // Update heading label
+    const heading = document.getElementById("grid-list-heading");
+    if (heading) {
+        if (category === "all") {
+            heading.textContent = "All Templates";
+        } else {
+            const labelMap = {
+                "tech": "Tech & AI Templates",
+                "professional": "Professional Templates",
+                "minimalist": "Minimalist Templates",
+                "academic": "Academic Templates",
+                "creative": "Creative Templates"
+            };
+            heading.textContent = labelMap[category] || `${category.charAt(0).toUpperCase() + category.slice(1)} Templates`;
         }
-    });
+    }
     
     renderTemplatesDirectory();
 }
